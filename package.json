@@ -1,0 +1,33 @@
+{
+  "name": "angular_qa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-report": "npx cypress run --reporter cypress-mochawesome-reporter"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/czarekemce/angular_qa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/czarekemce/angular_qa/issues"
+  },
+  "homepage": "https://github.com/czarekemce/angular_qa#readme",
+  "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
+    "@testing-library/react": "^14.0.0",
+    "cypress": "^13.2.0",
+    "cypress-multi-reporters": "^1.6.3",
+    "mocha-junit-reporter": "^2.2.1",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0"
+  },
+  "engines": {
+    "node": "14.15.0",
+    "npm": "6.14.5"
+  }
+}

@@ -1,0 +1,7 @@
+# dep
+node_modules
+
+# test results
+results
+reports
+screenshots
