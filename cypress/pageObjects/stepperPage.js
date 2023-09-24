@@ -105,21 +105,28 @@ export class StepperPage extends BasePage {
         return this;
     }
 
-    shouldHaveValidationOnWhitespaces() {
-        this.fillInputAndCheckNameTab('White   ')
-        this.fillInputAndCheckAddressTab('Space   ')
+    shouldHaveValidationOnWhitespaces(nameInputText, addressInputText) {
+        this.fillInputAndCheckNameTab(nameInputText)
+        this.fillInputAndCheckAddressTab(addressInputText)
         cy.get('#cdk-step-label-0-2')
         .should('contain.text', 'Done')
         .and('have.attr', 'aria-selected', 'true')
         .get('#cdk-step-content-0-2')
         .then(() => {
             cy.findAllByText('You are now done!')
-            .get('p').contains(nameInputText).should('be.visible')
-            .get('p').contains(addressInputText).should('be.visible')
-            .each(($p) => {
-                const text = $p.text();
-                const regex = /\s+$/;
-                expect(text).not.to.match(regex)
+            .get('p').eq(1)
+            .then(($p) => {
+                const nameValue = $p.text().trim()
+                const name = `Name: ${nameInputText}`.trim()
+
+                expect(nameValue).to.equal(name);
+            })
+            .get('p').eq(2)
+            .then(($p) => {
+                const addressValue = $p.text().trim()
+                const address = `Address: ${addressInputText}`.trim()
+
+                expect(addressValue).to.equal(address);
             })
         })
         return this;

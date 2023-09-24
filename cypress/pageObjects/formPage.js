@@ -15,14 +15,14 @@ export class FormPage extends BasePage {
     }
 
     checkInputsInForm() {
-        cy.get('#name').as('name')
+        cy.get('#name')
         .clear()
         .siblings()
         .should('have.class', 'alert')
-        .get('#alterEgo').as('alterEgo')
+        .get('#alterEgo')
         .clear()
         .should('be.empty')
-        .get('#power').as('power')
+        .get('#power')
         .then((power) => {
             cy.wrap(power)
             .select(0).should('contain.text', 'Really Smart')
@@ -32,21 +32,20 @@ export class FormPage extends BasePage {
         })
         .get('button[type="submit"]')
         .contains('Submit')
-        .as('submit')
         .should('be.visible')
         .get('button[type="button"]')
         .contains('New Hero')
-        .as('newHero')
         .should('be.visible')
         return this;
     }
 
     newHeroForm() {
-        cy.get('@newHero')
+        cy.get('button[type="button"]')
+        .contains('New Hero')
         .click({ force: true})
         .then(() => {
-            cy.get('@name').siblings().should('have.class', 'alert-danger')
-            cy.get('@power').siblings().should('have.class', 'alert-danger')
+            cy.get('#name').siblings().should('have.class', 'alert-danger')
+            cy.get('#power').siblings().should('have.class', 'alert-danger')
         })
         return this;
     }
@@ -59,13 +58,14 @@ export class FormPage extends BasePage {
             'Weather Changer'
         ];
 
-        cy.get('@name')
+        cy.get('#name')
         .type(nameValue)
-        .get('@alterEgo')
+        .get('#alterEgo')
         .type(alterEgoValue)
-        .get('@power')
+        .get('#power')
         .select(1)
-        .get('@submit')
+        .get('button[type="submit"]')
+        .contains('Submit')
         .click()
         .get('div')
         .then(($div) => {
@@ -88,20 +88,23 @@ export class FormPage extends BasePage {
     }
 
     shouldHaveValidationOnWhiteSpaces(nameValue, alterEgoValue) {
-        cy.get('@name')
+        cy.get('#name')
+        .clear()
         .type(nameValue)
-        .get('@alterEgo')
+        .get('#alterEgo')
+        .clear()
         .type(alterEgoValue)
-        .get('@power')
+        .get('#power')
         .select(1)
-        .get('@submit')
+        .get('button[type="submit"]')
+        .contains('Submit')
         .click()
         .get('div')
         .then(($div) => {
             cy.get('h2').should('include.text', 'You submitted the following:')
-              .wrap($div).should('include.text', nameValue)
-              .wrap($div).should('include.text', alterEgoValue)
-              if (!$div.text().includes(nameValue) || !$div.text().includes(alterEgoValue)) {
+              .wrap($div).should('not.include.text', nameValue)
+              .wrap($div).should('not.include.text', alterEgoValue)
+              if ($div.text().includes(nameValue) || $div.text().includes(alterEgoValue)) {
                 throw new Error('No validation for special characters')
               }
         })

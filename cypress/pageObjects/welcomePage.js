@@ -97,5 +97,5 @@ export class WelcomePage extends BasePage {
 
     displayCodeForBuildForProduction() {
         this.displayValueButtons('Build for Production', 'ng build')
-    }
+    };
 }
